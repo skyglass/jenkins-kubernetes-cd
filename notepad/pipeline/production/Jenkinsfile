@@ -1,6 +1,6 @@
 podTemplate(label: 'production', 
   containers: [
-    containerTemplate(name: 'kubectl', image: 'jorgeacetozi/kubectl:1.7.0', ttyEnabled: true, command: 'cat')
+    containerTemplate(name: 'kubectl', image: 'skyglass/kubectl:1.20.2', ttyEnabled: true, command: 'cat')
   ],
   envVars: [
     secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME')

@@ -1,6 +1,6 @@
 podTemplate(label: 'performance', 
   containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.3.9-jdk-8-alpine', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'maven', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
   ],
   volumes: [
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')

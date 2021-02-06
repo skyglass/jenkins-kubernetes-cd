@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notepad-deployment-testing
@@ -7,6 +7,9 @@ metadata:
     env: testing
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: notepad    
   template:
     metadata:
       labels:

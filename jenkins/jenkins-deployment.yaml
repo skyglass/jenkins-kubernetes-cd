@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jenkins-deployment
@@ -6,6 +6,9 @@ metadata:
     app: jenkins
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: jenkins  
   template:
     metadata:
       labels:
@@ -14,7 +17,7 @@ spec:
     spec:
       containers:
       - name: jenkins
-        image: jorgeacetozi/jenkins:2.60.3
+        image: skyglass/jenkins:lts-jdk11
         ports:
         - name: http-port
           containerPort: 8080

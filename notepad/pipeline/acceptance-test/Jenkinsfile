@@ -4,16 +4,14 @@ podTemplate(label: 'acceptance',
     containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'selenium-hub', image: 'selenium/hub:4.0.0'),
     containerTemplate(name: 'selenium-chrome', image: 'selenium/node-chrome:4.0.0', envVars: [
-      envVar(key: 'HUB_PORT_4444_TCP_ADDR', value: 'localhost'),
-      envVar(key: 'HUB_PORT_4444_TCP_PORT', value: '4444'),
-      envVar(key: 'DISPLAY', value: ':99.0'),
-      envVar(key: 'SE_OPTS', value: '-port 5556'),
+      envVar(key: 'SE_EVENT_BUS_HOST', value: 'selenium-hub'),
+      envVar(key: 'SE_EVENT_BUS_PUBLISH_PORT', value: '4442'),
+      envVar(key: 'SE_EVENT_BUS_SUBSCRIBE_PORT', value: '4443')
     ]),
     containerTemplate(name: 'selenium-firefox', image: 'selenium/node-firefox:4.0.0', envVars: [
-      envVar(key: 'HUB_PORT_4444_TCP_ADDR', value: 'localhost'),
-      envVar(key: 'HUB_PORT_4444_TCP_PORT', value: '4444'),
-      envVar(key: 'DISPLAY', value: ':98.0'),
-      envVar(key: 'SE_OPTS', value: '-port 5557'),
+      envVar(key: 'SE_EVENT_BUS_HOST', value: 'selenium-hub'),
+      envVar(key: 'SE_EVENT_BUS_PUBLISH_PORT', value: '4442'),
+      envVar(key: 'SE_EVENT_BUS_SUBSCRIBE_PORT', value: '4443')
     ])
   ],
   volumes: [

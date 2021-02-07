@@ -2,17 +2,23 @@ podTemplate(label: 'acceptance',
   containers: [
     containerTemplate(name: 'maven-firefox', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'selenium-hub', image: 'selenium/hub:4.0.0'),
+    containerTemplate(name: 'selenium-hub', image: 'selenium/hub:4.0.0',
+    portMapping(name: 'hub1', containerPort: 4442, hostPort: 4442),
+    portMapping(name: 'hub2', containerPort: 4443, hostPort: 4443),
+    portMapping(name: 'hub3', containerPort: 4444, hostPort: 4444)
+    ),
     containerTemplate(name: 'selenium-chrome', image: 'selenium/node-chrome:4.0.0', envVars: [
       envVar(key: 'SE_EVENT_BUS_HOST', value: 'selenium-hub'),
       envVar(key: 'SE_EVENT_BUS_PUBLISH_PORT', value: '4442'),
       envVar(key: 'SE_EVENT_BUS_SUBSCRIBE_PORT', value: '4443')
-    ]),
+    ], portMapping(name: 'chrome1', containerPort: 5900, hostPort: 6900)
+    ),
     containerTemplate(name: 'selenium-firefox', image: 'selenium/node-firefox:4.0.0', envVars: [
       envVar(key: 'SE_EVENT_BUS_HOST', value: 'selenium-hub'),
       envVar(key: 'SE_EVENT_BUS_PUBLISH_PORT', value: '4442'),
       envVar(key: 'SE_EVENT_BUS_SUBSCRIBE_PORT', value: '4443')
-    ])
+    ], portMapping(name: 'firefox1', containerPort: 5900, hostPort: 6901)
+    )
   ],
   volumes: [
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')

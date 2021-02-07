@@ -1,4 +1,4 @@
-podTemplate(label: 'acceptance', hostNetwork: true,
+podTemplate(label: 'acceptance', hostNetwork: true, hostPort: 4444,
   containers: [
     containerTemplate(name: 'maven-firefox', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),

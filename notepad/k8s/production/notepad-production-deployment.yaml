@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: notepad-deployment-production
@@ -8,6 +8,9 @@ metadata:
     track: stable
 spec:
   replicas: 1
+   selector:
+    matchLabels:
+      app: notepad     
   template:
     metadata:
       labels:
@@ -40,7 +43,7 @@ spec:
             value: "-Xmx256m"
         readinessProbe:
           httpGet:
-            path: /health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 10
@@ -49,7 +52,7 @@ spec:
           timeoutSeconds: 3
         livenessProbe:
           httpGet:
-            path: /health
+            path: /actuator/health
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 10

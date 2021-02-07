@@ -6,7 +6,7 @@ podTemplate(label: 'acceptance',
     ports:[ portMapping(name: 'hub1', containerPort: 4442, hostPort: 4442),
     portMapping(name: 'hub2', containerPort: 4443, hostPort: 4443),
     portMapping(name: 'hub3', containerPort: 4444, hostPort: 4444)
-    )],
+    ]),
     containerTemplate(name: 'selenium-chrome', image: 'selenium/node-chrome:4.0.0', envVars: [
       envVar(key: 'SE_EVENT_BUS_HOST', value: 'selenium-hub'),
       envVar(key: 'SE_EVENT_BUS_PUBLISH_PORT', value: '4442'),

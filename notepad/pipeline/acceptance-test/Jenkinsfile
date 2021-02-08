@@ -19,9 +19,7 @@ podTemplate(label: 'acceptance',
 
    def image_name = "notepad"
 
-    stage('Checkout the Notepad application') {
-      git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
-    }
+    checkout scm
 
     stage('Start a new Selenium Testing environment') {
       container('kubectl') {

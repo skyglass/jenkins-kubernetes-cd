@@ -3,9 +3,11 @@ podTemplate(label: 'acceptance',
     containerTemplate(name: 'kubectl', image: 'skyglass/kubectl:1.20.2', ttyEnabled: true, command: 'cat'),   
     containerTemplate(name: 'maven-firefox', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')  
 
   ],
   volumes: [
+    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),  
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [

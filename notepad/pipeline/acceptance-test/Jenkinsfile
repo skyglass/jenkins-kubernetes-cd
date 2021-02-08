@@ -9,11 +9,11 @@ podTemplate(label: 'acceptance',
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME')
+    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
+    envVar(key: 'SELENIUM_URL', value: 'http://selenium-service:4444/wd/hub')
   ])
 {
-  node ('acceptance') {
-    def selenium_url = "http://selenium-service:4444/wd/hub"
+  node ('acceptance') { 
 
     stage('Checkout the Notepad application') {
       git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
@@ -38,7 +38,7 @@ podTemplate(label: 'acceptance',
         stage('Run Acceptance Tests on Firefox') {
           container('maven-firefox') {
             sh """
-              mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${selenium_url} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=3
+              mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=3
             """
           }
         }
@@ -47,7 +47,7 @@ podTemplate(label: 'acceptance',
         stage('Run Acceptance Tests on Chrome') {
           container('maven-chrome') {
             sh """
-              mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${selenium_url} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=3
+              mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=3
             """
           }
         }

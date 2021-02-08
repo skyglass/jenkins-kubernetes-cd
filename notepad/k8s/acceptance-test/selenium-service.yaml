@@ -4,11 +4,11 @@ metadata:
   name: selenium-service
   labels:
     app: selenium
-    env: testing
+    env: selenium-testing
 spec:
   selector:
     app: selenium
-    env: testing
+    env: selenium-testing
   ports:
   - protocol: TCP
     port: 4444

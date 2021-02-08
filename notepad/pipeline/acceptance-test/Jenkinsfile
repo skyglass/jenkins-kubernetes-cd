@@ -21,6 +21,12 @@ podTemplate(label: 'acceptance',
 
     checkout scm
 
+    stage('Destroy the Selenium Testing environment if it exists') {
+      container('kubectl') {
+        sh 'kubectl delete all -l env=selenium-testing'
+      }
+    }  
+
     stage('Start a new Selenium Testing environment') {
       container('kubectl') {
         sh """

@@ -7,6 +7,9 @@ podTemplate(label: 'acceptance',
   ],
   volumes: [
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
+  ],
+  envVars: [
+    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME')
   ])
 {
   node ('acceptance') {

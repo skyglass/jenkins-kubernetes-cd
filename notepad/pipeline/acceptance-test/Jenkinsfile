@@ -11,7 +11,8 @@ podTemplate(label: 'acceptance',
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME')
+    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
+    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.101:31110/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -19,6 +20,12 @@ podTemplate(label: 'acceptance',
    def image_name = "notepad"
 
     checkout scm
+
+    stage('Destroy the Testing environment if it exists') {
+      container('kubectl') {
+        sh 'kubectl delete all -l env=testing'
+      }
+    }    
 
     stage('Start a new Selenium Testing environment') {
       container('kubectl') {
@@ -31,8 +38,8 @@ podTemplate(label: 'acceptance',
           kubectl get service selenium-service
           kubectl get endpoints selenium-service
 
-          export NODEPORT=`kubectl get svc --selector='app=selenium-service' --output=template --template="{{ with index .items 0}}{{with index .spec.ports 0 }}{{.nodePort}}{{end}}{{end}}"`
-          export SELENIUM_URL=http://172.42.42.101:${NODEPORT}/wd/hub
+          export NODEPORT=`
+          export SELENIUM_URL=http://172.42.42.101:3110/wd/hub
         """
       }
     }

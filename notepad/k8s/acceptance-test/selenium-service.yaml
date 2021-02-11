@@ -13,6 +13,7 @@ spec:
   - protocol: TCP
     port: 4444
     targetPort: 4444
+    nodePort: 31110    
     name: port0
   selector:
     app: selenium

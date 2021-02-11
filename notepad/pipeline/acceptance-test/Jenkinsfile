@@ -32,8 +32,7 @@ podTemplate(label: 'acceptance',
           kubectl get endpoints selenium-service
 
           export NODEPORT=`kubectl get svc --selector='app=selenium-service' --output=template --template="{{ with index .items 0}}{{with index .spec.ports 0 }}{{.nodePort}}{{end}}{{end}}"`
-          export NODE=`kubectl get nodes --output=template --template="{{with index .items 0 }}{{.metadata.name}}{{end}}"`
-          export SELENIUM_URL=http://${NODE}:${NODEPORT}/wd/hub
+          export SELENIUM_URL=http://172.42.42.101:${NODEPORT}/wd/hub
         """
       }
     }

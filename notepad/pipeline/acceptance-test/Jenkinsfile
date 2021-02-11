@@ -12,7 +12,7 @@ podTemplate(label: 'acceptance',
   ],
   envVars: [
     secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.101:31110/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://selenium-service:4444/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -37,8 +37,7 @@ podTemplate(label: 'acceptance',
 
           kubectl get service selenium-service
           kubectl get endpoints selenium-service
-
-          echo http://`kubectl get nodes --output=template --template="{{with index .items 0 }}{{.metadata.name}}{{end}}"`:`kubectl get svc --selector='app=selenium-service' --output=template --template="{{ with index .items 0}}{{with index .spec.ports 0 }}{{.nodePort}}{{end}}{{end}}"`/wd/hub
+          
         """
       }
     }

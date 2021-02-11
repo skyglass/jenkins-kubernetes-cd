@@ -11,7 +11,8 @@ podTemplate(label: 'acceptance',
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME')
+    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
+    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.101:31110/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -24,7 +25,7 @@ podTemplate(label: 'acceptance',
       container('kubectl') {
         sh 'kubectl delete all -l env=testing'
       }
-    }    
+    }
 
     stage('Start a new Selenium Testing environment') {
       container('kubectl') {

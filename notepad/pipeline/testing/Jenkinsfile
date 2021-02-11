@@ -47,6 +47,7 @@ podTemplate(label: 'testing',
     stage('Destroy the Testing environment if it exists') {
       container('kubectl') {
         sh 'kubectl delete all -l env=testing'
+        sh 'kubectl delete all -l env=selenium-testing'
       }
     }
 

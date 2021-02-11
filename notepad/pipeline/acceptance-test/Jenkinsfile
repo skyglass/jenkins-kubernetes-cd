@@ -12,7 +12,7 @@ podTemplate(label: 'acceptance',
   ],
   envVars: [
     secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.100:31110/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://192.168.41.130:4444/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -20,27 +20,6 @@ podTemplate(label: 'acceptance',
    def image_name = "notepad"
 
     checkout scm
-
-    stage('Destroy the Testing environment if it exists') {
-      container('kubectl') {
-        sh 'kubectl delete all -l env=testing'
-      }
-    }
-
-    stage('Start a new Selenium Testing environment') {
-      container('kubectl') {
-        sh """
-          sed -i "s/NOTEPAD_CONTAINER_IMAGE/${DOCKERHUB_USERNAME}\\/${image_name}:${GIT_BRANCH}/" ./notepad/k8s/acceptance-test/selenium-deployment.yaml
-
-          kubectl apply -f notepad/k8s/acceptance-test/ -l app=selenium
-          kubectl rollout status deployment selenium-deployment
-
-          kubectl get service selenium-service
-          kubectl get endpoints selenium-service
-
-        """
-      }
-    }
 
     dir('app') {
       stage('Checkout the Notepad application') {

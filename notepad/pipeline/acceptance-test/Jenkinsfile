@@ -1,8 +1,6 @@
 podTemplate(label: 'acceptance',
   containers: [
-    containerTemplate(name: 'kubectl', image: 'skyglass/kubectl:1.20.2', ttyEnabled: true, command: 'cat'),   
-    containerTemplate(name: 'maven-firefox', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
+    containerTemplate(name: 'kubectl', image: 'skyglass/kubectl:1.20.2', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')  
 
   ],
@@ -12,7 +10,7 @@ podTemplate(label: 'acceptance',
   ],
   envVars: [
     secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    envVar(key: 'SELENIUM_URL', value: 'http://selenium-service:4444/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://localhost:4444/wd/hub')
   ])
 {
   node ('acceptance') { 

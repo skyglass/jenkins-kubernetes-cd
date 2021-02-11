@@ -4,7 +4,7 @@ metadata:
   name: selenium-deployment
   labels:
     app: selenium
-    env: selenium-testing
+    env: testing
 spec:
   replicas: 1
   selector:
@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app: selenium
-        env: selenium-testing
+        env: testing
     spec:
       containers:
       - name: maven-firefox

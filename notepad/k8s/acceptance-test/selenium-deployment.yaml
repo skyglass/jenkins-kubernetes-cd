@@ -16,11 +16,7 @@ spec:
         app: selenium
         env: testing
     spec:
-      containers:
-      - name: maven-firefox
-        image: maven:3.6.3-jdk-11
-      - name: maven-chrome
-        image: maven:3.6.3-jdk-11      
+      containers:   
       - name: selenium-chrome            
         image: selenium/node-chrome:4.0.0  
         env:

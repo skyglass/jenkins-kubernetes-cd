@@ -12,7 +12,7 @@ podTemplate(label: 'acceptance',
   ],
   envVars: [
     secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    envVar(key: 'SELENIUM_URL', value: 'http://selenium-service:31110/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.100:31110/wd/hub')
   ])
 {
   node ('acceptance') { 

@@ -69,6 +69,7 @@ spec:
               sh """
                 mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=3
               """
+            }
       }
 
       stage('Run Acceptance Tests on Chrome') {

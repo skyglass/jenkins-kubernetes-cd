@@ -7,17 +7,13 @@ podTemplate(label: 'acceptance',
 
   ],
   volumes: [
-    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),  
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    secretEnvVar(key: 'DOCKERHUB_USERNAME', secretName: 'dockerhub-username-secret', secretKey: 'USERNAME'),
-    envVar(key: 'SELENIUM_URL', value: 'http://172.42.42.100:31110/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://selenium-hub:4444/wd/hub')
   ])
 {
   node ('acceptance') { 
-
-   def image_name = "notepad"
 
     checkout scm
 
@@ -30,13 +26,11 @@ podTemplate(label: 'acceptance',
     stage('Start a new Selenium Testing environment') {
       container('kubectl') {
         sh """
-          sed -i "s/NOTEPAD_CONTAINER_IMAGE/${DOCKERHUB_USERNAME}\\/${image_name}:${GIT_BRANCH}/" ./notepad/k8s/acceptance-test/selenium-deployment.yaml
 
           kubectl apply -f notepad/k8s/acceptance-test/ -l app=selenium
-          kubectl rollout status deployment selenium-deployment
 
-          kubectl get service selenium-service
-          kubectl get endpoints selenium-service
+          kubectl get service selenium-hub-service
+          kubectl get endpoints selenium-hub-service
 
         """
       }

@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.20.0 (f3d54d784)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: chrome
+  name: chrome
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.20.0 (f3d54d784)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: chrome
+    spec:
+      containers:
+      - env:
+        - name: SE_EVENT_BUS_HOST
+          value: selenium-hub
+        - name: SE_EVENT_BUS_PUBLISH_PORT
+          value: "4442"
+        - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+          value: "4443"
+        image: selenium/node-chrome:4.0.0-beta-1-prerelease-20210201
+        name: chrome
+        ports:
+        - containerPort: 5900
+        resources: {}
+        volumeMounts:
+        - mountPath: /dev/shm
+          name: chrome-claim0
+      restartPolicy: Always
+      volumes:
+      - name: chrome-claim0
+        persistentVolumeClaim:
+          claimName: chrome-claim0
+status: {}

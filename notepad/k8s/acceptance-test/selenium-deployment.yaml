@@ -26,6 +26,10 @@ spec:
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT
           value: "4443"
+        - name: DISPLAY
+          value: ":99.0"
+         - name: SE_OPTS
+          value: "-port 5556"                   
         ports:
         - containerPort: 5900
         resources: {}
@@ -38,6 +42,10 @@ spec:
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT
           value: "4443"
+        - name: DISPLAY
+          value: ":98.0"
+         - name: SE_OPTS
+          value: "-port 5557"             
         ports:
         - containerPort: 5901
         resources: {}

@@ -21,7 +21,7 @@ spec:
         image: selenium/node-chrome  
         env:
         - name: SE_EVENT_BUS_HOST
-          value: localhost
+          value: selenium-hub
         - name: SE_EVENT_BUS_PUBLISH_PORT
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT
@@ -33,7 +33,7 @@ spec:
         image: selenium/node-firefox     
         env:
         - name: SE_EVENT_BUS_HOST
-          value: localhost
+          value: selenium-hub
         - name: SE_EVENT_BUS_PUBLISH_PORT
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT

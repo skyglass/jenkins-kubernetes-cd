@@ -17,43 +17,27 @@ spec:
         env: testing
     spec:
       containers:   
-      - name: selenium-chrome            
-        image: selenium/node-chrome:4.0.0  
-        env:
-        - name: SE_EVENT_BUS_HOST
-          value: selenium-service
-        - name: SE_EVENT_BUS_PUBLISH_PORT
-          value: "4442"
-        - name: SE_EVENT_BUS_SUBSCRIBE_PORT
-          value: "4443"
-        - name: DISPLAY
-          value: ":99.0"
-        - name: NODE_PORT
-          value: "5556"                   
-        ports:
-        - containerPort: 5900
-        resources: {}
-      - name: selenium-firefox          
-        image: selenium/node-firefox:4.0.0   
-        env:
-        - name: SE_EVENT_BUS_HOST
-          value: selenium-service
-        - name: SE_EVENT_BUS_PUBLISH_PORT
-          value: "4442"
-        - name: SE_EVENT_BUS_SUBSCRIBE_PORT
-          value: "4443"
-        - name: DISPLAY
-          value: ":98.0"
-        - name: NODE_PORT
-          value: "5557"             
-        ports:
-        - containerPort: 5901
-        resources: {}
-      - name: selenium-hub        
-        image: selenium/hub:4.0.0
-        ports:
-        - containerPort: 4442
-        - containerPort: 4443
-        - containerPort: 4444
-        resources: {}               
-      restartPolicy: Always
+        - name: selenium-hub
+          image: selenium/hub:3.4.0
+        - name: selenium-chrome
+          image: selenium/node-chrome:3.4.0
+          env:
+          - name: HUB_PORT_4444_TCP_ADDR
+            value: localhost
+          - name: HUB_PORT_4444_TCP_PORT
+            value: 4444
+          - name: DISPLAY
+            value: :99.0
+          - name: SE_OPTS
+            value: -port 5556
+        - name: selenium-firefox
+          image: selenium/node-firefox:3.4.0
+          env:
+          - name: HUB_PORT_4444_TCP_ADDR
+            value: localhost
+          - name: HUB_PORT_4444_TCP_PORT
+            value: 4444
+          - name: DISPLAY
+            value: :98.0
+          - name: SE_OPTS
+            value: -port 5557

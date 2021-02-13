@@ -23,9 +23,9 @@ spec:
     - name: volume-0
       mountPath: /etc/maven/
   - name: selenium-hub
-    image: selenium/hub:4.0.0
+    image: selenium/hub:4.0.0-beta-1-prerelease-20210210
   - name: selenium-chrome
-    image: selenium/node-chrome:4.0.0
+    image: selenium/node-chrome:4.0.0-beta-1-prerelease-20210210
     env:
       - name: SE_EVENT_BUS_HOST
         value: localhost
@@ -38,7 +38,7 @@ spec:
       - name: SE_OPTS
         value: "--port 5556"
   - name: selenium-firefox
-    image: selenium/node-firefox:4.0.0
+    image: selenium/node-firefox:4.0.0-beta-1-prerelease-20210210
     env:
       - name: SE_EVENT_BUS_HOST
         value: localhost
@@ -58,6 +58,8 @@ spec:
 
 {
   node ('acceptance') { 
+
+    dir('app') {
 
       stage('Checkout the Notepad application') {
         git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
@@ -83,5 +85,6 @@ spec:
           }
         }
       )
+    }
   }
 }

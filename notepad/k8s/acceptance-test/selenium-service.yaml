@@ -13,10 +13,10 @@ spec:
   - name: "6900"
     port: 6900
     targetPort: 5900
-   - name: "6901"
+  - name: "6901"
     port: 6901
     targetPort: 5900
-   - name: "4442"
+  - name: "4442"
     port: 4442
     targetPort: 4442
   - name: "4443"

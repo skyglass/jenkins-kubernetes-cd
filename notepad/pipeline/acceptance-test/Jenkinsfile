@@ -13,8 +13,12 @@ spec:
   containers:
   - name: maven-firefox
     image: maven:3.6.3-jdk-11
+    command: ['sleep']
+    args: ['9999999']
   - name: maven-chrome
     image: maven:3.6.3-jdk-11
+    command: ['sleep']
+    args: ['9999999']
   - name: selenium-hub
     image: selenium/hub:4.0.0
   - name: selenium-chrome

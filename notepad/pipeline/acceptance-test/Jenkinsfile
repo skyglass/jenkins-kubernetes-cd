@@ -1,7 +1,5 @@
 podTemplate(label: 'acceptance',
   containers: [
-    containerTemplate(name: 'maven-firefox', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),
-    containerTemplate(name: 'maven-chrome', image: 'maven:3.6.3-jdk-11', ttyEnabled: true, command: 'cat'),    
     containerTemplate(name: 'kubectl', image: 'skyglass/kubectl:1.20.2', ttyEnabled: true, command: 'cat'),
     containerTemplate(name: 'docker', image: 'docker', ttyEnabled: true, command: 'cat')  
 
@@ -11,34 +9,48 @@ podTemplate(label: 'acceptance',
   ],
   envVars: [
     envVar(key: 'SELENIUM_URL', value: 'http://localhost:4444/wd/hub')
-  ])
+  ],
+
+yaml: """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: maven-firefox
+    image: maven:3.6.3-jdk-11
+  - name: maven-chrome
+    image: maven:3.6.3-jdk-11
+  - name: selenium-hub
+    image: selenium/hub:4.0.0
+  - name: selenium-chrome
+    image: selenium/node-chrome:4.0.0
+    env:
+      - name: HUB_HOST
+        value: "selenium-hub"
+      - name: HUB_PORT
+        value: "4444"
+      - name: SE_EVENT_BUS_HOST
+        value: selenium-hub
+      - name: SE_EVENT_BUS_PUBLISH_PORT
+        value: "4442"
+      - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+        value: "4443"
+  - name: selenium-firefox
+    image: selenium/node-firefox:4.0.0
+    env:
+      - name: HUB_HOST
+        value: "selenium-hub"
+      - name: HUB_PORT
+        value: "4444"
+      - name: SE_EVENT_BUS_HOST
+        value: selenium-hub
+      - name: SE_EVENT_BUS_PUBLISH_PORT
+        value: "4442"
+      - name: SE_EVENT_BUS_SUBSCRIBE_PORT
+        value: "4443"
+""")
 {
   node ('acceptance') { 
-
-    checkout scm
-
-    stage('Destroy the Testing environment if it exists') {
-      container('kubectl') {
-        sh 'kubectl delete all -l env=testing'
-      }
-    }
-
-    stage('Start a new Selenium Testing environment') {
-      container('kubectl') {
-        sh """
-
-          kubectl apply -f notepad/k8s/acceptance-test/ -l env=testing
-
-          kubectl rollout status deployment selenium-hub
-
-          kubectl get service selenium-hub
-          kubectl get endpoints selenium-hub
-
-          kubectl port-forward `kubectl get pods --selector="app=selenium-hub" --output=template --template="{{with index .items 0}}{{.metadata.name}}{{end}}"` 4444:4444 &
-
-        """
-      }
-    }
 
     dir('app') {
       stage('Checkout the Notepad application') {

@@ -14,4 +14,12 @@ spec:
     port: 4444
     targetPort: 4444
     nodePort: 31110
+  - protocol: TCP
+    port: 4443
+    targetPort: 4443
+    nodePort: 31120   
+   - protocol: TCP
+    port: 4442
+    targetPort: 4442
+    nodePort: 31130
   type: NodePort

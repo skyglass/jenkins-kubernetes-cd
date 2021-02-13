@@ -59,7 +59,6 @@ spec:
 {
   node ('acceptance') { 
 
-    dir('app') {
       stage('Checkout the Notepad application') {
         git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
       }
@@ -84,6 +83,5 @@ spec:
           }
         }
       )
-    }
   }
 }

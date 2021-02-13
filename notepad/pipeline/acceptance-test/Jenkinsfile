@@ -1,7 +1,4 @@
 podTemplate(label: 'acceptance',
-  volumes: [
-    secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
-  ],
   envVars: [
     envVar(key: 'SELENIUM_URL', value: 'http://localhost:4444/wd/hub')
   ],
@@ -15,10 +12,16 @@ spec:
     image: maven:3.6.3-jdk-11
     command: ['sleep']
     args: ['9999999']
+    volumeMounts:
+    - name: maven-settings-volume
+      mountPath: /etc/maven/
   - name: maven-chrome
     image: maven:3.6.3-jdk-11
     command: ['sleep']
     args: ['9999999']
+    volumeMounts:
+    - name: maven-settings-volume
+      mountPath: /etc/maven/
   - name: selenium-hub
     image: selenium/hub:4.0.0
   - name: selenium-chrome
@@ -47,7 +50,12 @@ spec:
         value: "4442"
       - name: SE_EVENT_BUS_SUBSCRIBE_PORT
         value: "4443"
+  volumes:
+  - name: maven-settings-volume
+    secretMap:
+      name: maven-settings-secret
 """)
+
 {
   node ('acceptance') { 
 

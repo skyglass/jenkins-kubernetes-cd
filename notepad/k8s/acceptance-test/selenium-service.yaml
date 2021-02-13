@@ -10,8 +10,20 @@ spec:
     app: selenium
     env: testing
   ports:
-  - protocol: TCP
+  - name: "6900"
+    port: 6900
+    targetPort: 5900
+   - name: "6901"
+    port: 6901
+    targetPort: 5900
+   - name: "4442"
+    port: 4442
+    targetPort: 4442
+  - name: "4443"
+    port: 4443
+    targetPort: 4443
+  - name: "4444"
     port: 4444
-    targetPort: 4444
-    nodePort: 31110
-  type: NodePort
+    targetPort: 4444      
+status:
+  loadBalancer: {}

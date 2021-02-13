@@ -4,6 +4,7 @@ metadata:
   name: selenium-hub
   labels:
     app: selenium-hub
+    env: testing   
 spec:
   replicas: 1
   selector:
@@ -16,13 +17,9 @@ spec:
     spec:
       containers:
       - name: selenium-hub
-        image: selenium/hub:3.141
+        image: selenium/hub:4.0.0
         ports:
           - containerPort: 4444
-        resources:
-          limits:
-            memory: "1000Mi"
-            cpu: ".5"
         livenessProbe:
           httpGet:
             path: /wd/hub/status

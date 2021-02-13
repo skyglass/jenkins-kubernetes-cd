@@ -6,7 +6,7 @@ metadata:
     app: selenium-node-firefox
     env: testing      
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: selenium-node-firefox
@@ -15,18 +15,11 @@ spec:
       labels:
         app: selenium-node-firefox
     spec:
-      volumes:
-      - name: dshm
-        emptyDir:
-          medium: Memory
       containers:
       - name: selenium-node-firefox
         image: selenium/node-firefox:4.0.0
         ports:
           - containerPort: 5900
-        volumeMounts:
-          - mountPath: /dev/shm
-            name: dshm
         env:
           - name: HUB_HOST
             value: "selenium-hub"
@@ -38,7 +31,3 @@ spec:
             value: "4442"
           - name: SE_EVENT_BUS_SUBSCRIBE_PORT
             value: "4443"
-        resources:
-          limits:
-            memory: "1000Mi"
-            cpu: ".5"

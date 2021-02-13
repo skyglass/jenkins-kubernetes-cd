@@ -24,8 +24,17 @@ spec:
       mountPath: /etc/maven/
   - name: selenium-hub
     image: selenium/hub:4.0.0-beta-1-prerelease-20210210
+    env:
+      - name: SE_OPTS
+        value: "--maxSession 2"
+    ports:
+    - containerPort: 4442
+    - containerPort: 4443
+    - containerPort: 4444
   - name: selenium-chrome
     image: selenium/node-chrome:4.0.0-beta-1-prerelease-20210210
+    ports:
+    - containerPort: 5553    
     env:
       - name: SE_EVENT_BUS_HOST
         value: localhost
@@ -39,6 +48,8 @@ spec:
         value: "--port 5556"
   - name: selenium-firefox
     image: selenium/node-firefox:4.0.0-beta-1-prerelease-20210210
+    ports:
+    - containerPort: 5900
     env:
       - name: SE_EVENT_BUS_HOST
         value: localhost
@@ -64,21 +75,23 @@ spec:
         git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
       }
 
-      stage('Run Acceptance Tests on Firefox') {
-            container('maven-firefox') {
-              sh """
-                mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=3
-              """
-            }
-      }
+      parallel (
+        stage('Run Acceptance Tests on Firefox') {
+              container('maven-firefox') {
+                sh """
+                  mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=firefox -Dsurefire.rerunFailingTestsCount=3
+                """
+              }
+        }
 
-      stage('Run Acceptance Tests on Chrome') {
-            container('maven-chrome') {
-              sh """
-                mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=3
-              """
-            }
-      }
+        stage('Run Acceptance Tests on Chrome') {
+              container('maven-chrome') {
+                sh """
+                  mvn -B -s /etc/maven/settings.xml clean verify -Pacceptance-tests -Dselenium.url=${SELENIUM_URL} -Dacceptance.notepad.url=${NOTEPAD_URL} -Dselenium.browser=chrome -Dsurefire.rerunFailingTestsCount=3
+                """
+              }
+        }
+      )
     }
   }
 }

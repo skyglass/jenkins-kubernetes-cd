@@ -21,23 +21,23 @@ spec:
         image: selenium/node-chrome:4.0.0  
         env:
         - name: SE_EVENT_BUS_HOST
-          value: localhost
+          value: selenium-service
         - name: SE_EVENT_BUS_PUBLISH_PORT
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT
-          value: "4443"
+          value: "4443"                 
         ports:
-        - containerPort: 5900
+        - containerPort: 5553
         resources: {}
       - name: selenium-firefox          
-        image: selenium/node-firefox:4.0.0     
+        image: selenium/node-firefox:4.0.0   
         env:
         - name: SE_EVENT_BUS_HOST
-          value: localhost
+          value: selenium-service
         - name: SE_EVENT_BUS_PUBLISH_PORT
           value: "4442"
         - name: SE_EVENT_BUS_SUBSCRIBE_PORT
-          value: "4443"
+          value: "4443"            
         ports:
         - containerPort: 5900
         resources: {}

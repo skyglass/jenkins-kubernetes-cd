@@ -10,7 +10,8 @@ spec:
     app: selenium
     env: testing
   ports:
-  - protocol: TCP
+  - name: "4444"  
+    protocol: TCP
     port: 4444
     targetPort: 4444
     nodePort: 31110

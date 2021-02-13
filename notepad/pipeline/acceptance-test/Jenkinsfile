@@ -29,8 +29,8 @@ podTemplate(label: 'acceptance',
 
           kubectl apply -f notepad/k8s/acceptance-test/ -l app=selenium
 
-          kubectl get service selenium-service
-          kubectl get endpoints selenium-service
+          kubectl get service selenium-hub-service
+          kubectl get endpoints selenium-hub-service
 
         """
       }

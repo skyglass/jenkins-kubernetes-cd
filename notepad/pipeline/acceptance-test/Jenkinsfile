@@ -10,7 +10,7 @@ podTemplate(label: 'acceptance',
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    envVar(key: 'SELENIUM_URL', value: 'http://selenium-hub:4444/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://localhost:4444/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -31,6 +31,8 @@ podTemplate(label: 'acceptance',
 
           kubectl get service selenium-hub
           kubectl get endpoints selenium-hub
+
+          kubectl port-forward `kubectl get pods --selector="app=selenium-hub" --output=template --template="{{with index .items 0}}{{.metadata.name}}{{end}}"` 4444:4444
 
         """
       }

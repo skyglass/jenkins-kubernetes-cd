@@ -10,7 +10,7 @@ podTemplate(label: 'acceptance',
     secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ],
   envVars: [
-    envVar(key: 'SELENIUM_URL', value: 'http://selenium-service:4444/wd/hub')
+    envVar(key: 'SELENIUM_URL', value: 'http://selenium-hub:4444/wd/hub')
   ])
 {
   node ('acceptance') { 
@@ -27,10 +27,10 @@ podTemplate(label: 'acceptance',
       container('kubectl') {
         sh """
 
-          kubectl apply -f notepad/k8s/acceptance-test/ -l app=selenium
+          kubectl apply -f notepad/k8s/acceptance-test/ -l env=testing
 
-          kubectl get service selenium-hub-service
-          kubectl get endpoints selenium-hub-service
+          kubectl get service selenium-hub
+          kubectl get endpoints selenium-hub
 
         """
       }

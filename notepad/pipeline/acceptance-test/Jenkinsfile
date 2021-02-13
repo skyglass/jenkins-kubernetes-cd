@@ -12,16 +12,10 @@ spec:
     image: maven:3.6.3-jdk-11
     command: ['sleep']
     args: ['9999999']
-    volumeMounts:
-    - name: maven-settings-volume
-      mountPath: /etc/maven/
   - name: maven-chrome
     image: maven:3.6.3-jdk-11
     command: ['sleep']
     args: ['9999999']
-    volumeMounts:
-    - name: maven-settings-volume
-      mountPath: /etc/maven/
   - name: selenium-hub
     image: selenium/hub:4.0.0
   - name: selenium-chrome
@@ -53,7 +47,7 @@ spec:
 """,
 
   volumes: [
-    secretVolume(name: "maven-settings-volume", mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
+    secretVolume(mountPath: '/etc/maven/', secretName: 'maven-settings-secret')
   ])
 
 {

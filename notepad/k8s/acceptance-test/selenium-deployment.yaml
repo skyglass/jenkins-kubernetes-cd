@@ -18,7 +18,7 @@ spec:
     spec:
       containers:   
       - name: selenium-chrome            
-        image: selenium/node-chrome  
+        image: selenium/node-chrome:4.0.0  
         env:
         - name: SE_EVENT_BUS_HOST
           value: selenium-service
@@ -30,7 +30,7 @@ spec:
         - containerPort: 5900
         resources: {}
       - name: selenium-firefox          
-        image: selenium/node-firefox     
+        image: selenium/node-firefox:4.0.0   
         env:
         - name: SE_EVENT_BUS_HOST
           value: selenium-service
@@ -42,7 +42,7 @@ spec:
         - containerPort: 5901
         resources: {}
       - name: selenium-hub        
-        image: selenium/hub
+        image: selenium/hub:4.0.0
         ports:
         - containerPort: 4442
         - containerPort: 4443

@@ -36,7 +36,7 @@ spec:
       - name: DISPLAY
         value: :99.0
       - name: SE_OPTS
-        value: -port 5556
+        value: "--port 5556"
   - name: selenium-firefox
     image: selenium/node-firefox:4.0.0
     env:
@@ -49,7 +49,7 @@ spec:
       - name: DISPLAY
         value: :98.0
       - name: SE_OPTS
-        value: -port 5557
+        value: "--port 5557"
 """,
 
   volumes: [

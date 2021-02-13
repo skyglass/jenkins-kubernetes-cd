@@ -29,8 +29,12 @@ podTemplate(label: 'acceptance',
 
           kubectl apply -f notepad/k8s/acceptance-test/ -l env=testing
 
+          kubectl rollout status deployment selenium-hub
+
           kubectl get service selenium-hub
           kubectl get endpoints selenium-hub
+
+          kubectl port-forward `kubectl get pods --selector="app=selenium-hub" --output=template --template="{{with index .items 0}}{{.metadata.name}}{{end}}"` 4444:4444
 
         """
       }
@@ -40,15 +44,6 @@ podTemplate(label: 'acceptance',
       stage('Checkout the Notepad application') {
         git url: 'https://github.com/skyglass/notepad.git', branch: "${GIT_BRANCH}"
       }
-
-      stage('Forward selenium port') {
-        container('kubectl') {
-          sh """
-            kubectl port-forward `kubectl get pods --selector="app=selenium-hub" --output=template --template="{{with index .items 0}}{{.metadata.name}}{{end}}"` 4444:4444
-
-          """
-        }
-      }     
 
       parallel (
         firefox: {

@@ -13,7 +13,7 @@ podTemplate(label: 'performance',
 
     stage('Run Performance Tests') {
       container('maven') {
-        sh "mvn -B -s /etc/maven/settings.xml gatling:execute -DnotepadUrl=${NOTEPAD_URL}"
+        sh "mvn -B -s /etc/maven/settings.xml gatling:test -DnotepadUrl=${NOTEPAD_URL}"
       }
     }
   }
